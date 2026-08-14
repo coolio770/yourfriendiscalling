@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Incoming call from John.P.DonutGaming" />
+    <link rel="icon" href="JP.png" />
+    <link rel="apple-touch-icon" href="JP.png" />
+    <title>John.P.DonutGaming is calling…</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="device" id="app" data-state="incoming">
+      <img class="poster" src="JP.png" alt="" />
+      <div class="poster-shade" aria-hidden="true"></div>
+
+      <header class="status-bar">
+        <span class="status-time" id="status-time">9:41</span>
+        <div class="dynamic-island" aria-hidden="true">
+          <span class="island-camera"></span>
+        </div>
+        <div class="status-icons" aria-hidden="true">
+          <svg class="icon-signal" viewBox="0 0 18 12" fill="currentColor">
+            <rect x="0" y="8" width="3" height="4" rx="0.6" />
+            <rect x="5" y="5" width="3" height="7" rx="0.6" />
+            <rect x="10" y="2.5" width="3" height="9.5" rx="0.6" />
+            <rect x="15" y="0" width="3" height="12" rx="0.6" opacity="0.35" />
+          </svg>
+          <svg class="icon-wifi" viewBox="0 0 16 12" fill="currentColor">
+            <path d="M8 10.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm0-3.7c1.3 0 2.5.5 3.4 1.3l-1.1 1.1A3.3 3.3 0 0 0 8 8.4c-.9 0-1.7.3-2.3.9L4.6 8.2A4.8 4.8 0 0 1 8 6.9Zm0-3.6c2.3 0 4.4.9 6 2.4L12.9 7A6.7 6.7 0 0 0 8 5.1 6.7 6.7 0 0 0 3.1 7L2 5.7A8.8 8.8 0 0 1 8 3.3Z" />
+          </svg>
+          <span class="battery">
+            <span class="battery-level"></span>
+          </span>
+        </div>
+      </header>
+
+      <main class="call-stage">
+        <section class="incoming-ui">
+          <p class="caller-name">John.P.DonutGaming</p>
+          <p class="caller-sub" id="caller-sub">mobile</p>
+        </section>
+
+        <section class="active-ui">
+          <p class="caller-name">John.P.DonutGaming</p>
+          <p class="caller-sub" id="call-status">connecting…</p>
+        </section>
+      </main>
+
+      <footer class="call-actions">
+        <div class="incoming-actions">
+          <button class="call-btn" id="decline-btn" type="button" aria-label="Decline call">
+            <img src="end-call-icon.png" alt="" />
+            <span>Decline</span>
+          </button>
+          <button class="call-btn" id="accept-btn" type="button" aria-label="Accept call">
+            <img src="accept-call-icon.png" alt="" />
+            <span>Accept</span>
+          </button>
+        </div>
+
+        <div class="active-actions">
+          <button class="call-btn hangup" id="hangup-btn" type="button" aria-label="End call">
+            <img src="end-call-icon.png" alt="" />
+            <span>End</span>
+          </button>
+        </div>
+      </footer>
+
+      <div class="home-indicator" aria-hidden="true"></div>
+    </div>
+
+    <audio id="ringtone" src="ringtone.wav" autoplay loop preload="auto" playsinline></audio>
+    <audio id="call-audio" src="voice-message.ogg" preload="auto" playsinline></audio>
+    <script src="app.js"></script>
+  </body>
+</html>
