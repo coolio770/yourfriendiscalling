@@ -61,6 +61,7 @@ body {
   object-fit: cover;
   object-position: center 18%;
   pointer-events: none;
+  transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 .poster-shade {
@@ -172,6 +173,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding-top: 22px;
+  container-type: inline-size;
 }
 
 .incoming-ui,
@@ -181,7 +183,7 @@ body {
   align-items: center;
   text-align: center;
   width: 100%;
-  padding: 0 28px;
+  padding: 0 18px;
 }
 
 .active-ui,
@@ -208,12 +210,13 @@ body {
 }
 
 .caller-name {
-  font-size: clamp(30px, 8vw, 38px);
+  font-size: 26px;
+  font-size: clamp(22px, 6.8cqi, 28px);
   font-weight: 600;
-  letter-spacing: -0.4px;
-  line-height: 1.15;
-  max-width: 92%;
-  word-break: break-word;
+  letter-spacing: 0.1px;
+  line-height: 1.2;
+  max-width: 100%;
+  white-space: nowrap;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.45),
     0 8px 28px rgba(0, 0, 0, 0.55);
@@ -284,7 +287,7 @@ body {
 
 .home-indicator {
   position: absolute;
-  z-index: 4;
+  z-index: 12;
   left: 50%;
   bottom: calc(8px + env(safe-area-inset-bottom, 0px));
   width: 134px;
@@ -292,6 +295,71 @@ body {
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.85);
   transform: translateX(-50%);
+}
+
+.lock-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(86px + env(safe-area-inset-top, 0px)) 24px
+    calc(52px + env(safe-area-inset-bottom, 0px));
+  border: 0;
+  background: transparent;
+  color: var(--white);
+  font: inherit;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+#app[data-state="locked"] .lock-screen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#app[data-state="locked"] .status-time,
+#app[data-state="locked"] .call-stage,
+#app[data-state="locked"] .call-actions {
+  visibility: hidden;
+}
+
+#app[data-state="locked"] .poster {
+  filter: blur(28px) saturate(1.15) brightness(0.52);
+  transform: scale(1.12);
+}
+
+.lock-clock {
+  text-align: center;
+}
+
+.lock-time {
+  font-size: 86px;
+  font-weight: 200;
+  letter-spacing: -2px;
+  line-height: 0.95;
+  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.lock-date {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.lock-hint {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  animation: unlock-pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes bounce-back {
@@ -302,6 +370,18 @@ body {
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes unlock-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
   }
 }
 

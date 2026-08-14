@@ -1,5 +1,8 @@
 const app = document.getElementById("app");
 const statusTime = document.getElementById("status-time");
+const lockTime = document.getElementById("lock-time");
+const lockDate = document.getElementById("lock-date");
+const lockScreen = document.getElementById("lock-screen");
 const callerSub = document.getElementById("caller-sub");
 const callStatus = document.getElementById("call-status");
 const declineBtn = document.getElementById("decline-btn");
@@ -24,7 +27,14 @@ function pad(value) {
 function updateClock() {
   const now = new Date();
   const hours = now.getHours() % 12 || 12;
-  statusTime.textContent = `${hours}:${pad(now.getMinutes())}`;
+  const time = `${hours}:${pad(now.getMinutes())}`;
+  statusTime.textContent = time;
+  lockTime.textContent = time;
+  lockDate.textContent = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 function setState(state) {
@@ -117,6 +127,16 @@ function startIncoming() {
   startRingtone();
 }
 
+function unlockPhone() {
+  if (app.dataset.state !== "locked") return;
+  startIncoming();
+  try {
+    navigator.wakeLock?.request("screen");
+  } catch {
+    // Wake Lock is optional
+  }
+}
+
 function declineCall() {
   if (app.dataset.state !== "incoming") return;
   stopRingtone();
@@ -151,21 +171,15 @@ function hangupCall() {
 
 updateClock();
 setInterval(updateClock, 1000);
+document.title = "iPhone";
 
+lockScreen.addEventListener("pointerdown", unlockPhone);
+lockScreen.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    unlockPhone();
+  }
+});
 declineBtn.addEventListener("click", declineCall);
 acceptBtn.addEventListener("click", acceptCall);
 hangupBtn.addEventListener("click", hangupCall);
-
-ringtone.addEventListener("canplaythrough", playRingtoneAudio);
-document.addEventListener("DOMContentLoaded", playRingtoneAudio);
-window.addEventListener("load", playRingtoneAudio);
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") playRingtoneAudio();
-});
-
-startIncoming();
-try {
-  navigator.wakeLock?.request("screen");
-} catch {
-  // Wake Lock is optional
-}
